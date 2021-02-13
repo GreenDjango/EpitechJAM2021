@@ -2,7 +2,7 @@ extends Node
 
 var default_life := 3.0
 var life := default_life
-var dialog := "Bonjour, comment ca va ?"
+var dialog := ""
 const DEBUG := true
 
 func _ready():
