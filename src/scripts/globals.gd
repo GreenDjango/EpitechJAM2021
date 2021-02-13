@@ -2,7 +2,8 @@ extends Node
 
 var default_life := 3.0
 var life := default_life
-var dialog := ""
+var dialog := "Bonjour, comment ca va ?"
+const DEBUG := true
 
 func _ready():
 	randomize()
@@ -10,7 +11,7 @@ func _ready():
 func restart_game():
 	life = default_life
 	dialog = ""
-	goto_scene("main_menu")
+	goto_scene("MainMenu")
 
 func goto_scene(new_scene_name : String):
 # warning-ignore:return_value_discarded
