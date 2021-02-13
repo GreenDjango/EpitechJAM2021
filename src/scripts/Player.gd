@@ -1,58 +1,79 @@
-extends KinematicBody2D
+extends KinematicBody
 
-var velocity := Vector2.ZERO
-const speed_max := 70.0
+var velocity := Vector3.ZERO
 var acceleration := 0.1
-const acceleration_step := 0.02
-const friction := 0.9
-var player_sprite: AnimatedSprite = null
+const SPEED_MAX := 8.0
+const ACCELERATION_STEP := 0.1
+const FRICTION := 0.9
+const JUMP_SPEED := 14.0
+const WEIGHT := 2.0
+var player_sprite: AnimatedSprite3D = null
 var particles: CPUParticles2D = null
+onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity") * ProjectSettings.get_setting("physics/3d/default_gravity_vector").y
+
 
 func _ready():
-	player_sprite = $AnimatedSprite
-	particles = $DeathParticles
+	pass
+	player_sprite = $AnimatedSprite3D
+	# particles = $DeathParticles
 
-func _physics_process(_delta : float):
+
+func _physics_process(delta : float):
+	# Apply gravity.
+	velocity.y += delta * gravity * WEIGHT
+
 	var input := Vector2.ZERO
 	if Input.is_action_pressed("right"):
 		input.x += 1
 	if Input.is_action_pressed("left"):
 		input.x -= 1
-	if Input.is_action_pressed("down"):
-		input.y += 1
+#	if Input.is_action_pressed("down"):
+#		input.y -= 1
 	if Input.is_action_pressed("up"):
-		input.y -= 1
+		input.y += 1
 	_move_player(input.normalized())
+	_anim_player(input.normalized())
+
 
 func _move_player(input: Vector2):
 	if input != Vector2.ZERO:
 		if acceleration < 1:
-			acceleration += acceleration_step
-		player_sprite.play("run")
+			acceleration += ACCELERATION_STEP
 	else:
 		if acceleration > 0.1:
-			acceleration -= acceleration_step*2
-		player_sprite.play("idle")
+			acceleration -= ACCELERATION_STEP * 2
 
 	if input.x != 0:
-		velocity.x = input.x * speed_max * acceleration
-		if velocity.x > 0:
-			player_sprite.flip_h = false
-		elif velocity.x < 0:
-			player_sprite.flip_h = true
+		velocity.x = input.x * SPEED_MAX * acceleration
 	else:
-		velocity.x = move_toward(velocity.x, 0, friction)
+		velocity.x = move_toward(velocity.x, 0, FRICTION)
 
-	if input.y != 0:
-		velocity.y = input.y * speed_max * acceleration
-	else:
-		velocity.y = move_toward(velocity.y, 0, friction)
+	if input.y > 0 && is_on_floor():
+		velocity.y = JUMP_SPEED
 
-	# warning-ignore:return_value_discarded
-	move_and_slide(velocity)
+	velocity = move_and_slide(velocity, Vector3.UP)
 	#var collide = move_and_collide(velocity, true, true, true)
 	#if collide:
 	#	print(collide.collider_id)
+
+
+func _anim_player(input: Vector2):
+	if not is_on_floor():
+		if velocity.y >= 0 && player_sprite.animation != "jump_up":
+			player_sprite.play("jump_up")
+		elif velocity.y < 0 && player_sprite.animation != "jump_down":
+			player_sprite.play("jump_down")
+	elif input != Vector2.ZERO:
+		player_sprite.play("run")
+	else:
+		player_sprite.play("idle")
+
+	if input.x != 0:
+		if velocity.x > 0:
+			player_sprite.flip_h = true
+		elif velocity.x < 0:
+			player_sprite.flip_h = false
+
 
 func hurt(degat: float):
 	if Globals.life <= 0:
@@ -62,20 +83,21 @@ func hurt(degat: float):
 		Globals.life = 0
 		killPlayer()
 
+
 func killPlayer():
 	set_physics_process(false)
 	player_sprite.play("death")
 	Globals.dialog = "Defeat..."
 
+
 func victory():
-	get_tree().call_group("egg", "hide")
-	var nest_node = get_tree().get_nodes_in_group("nest")[0]
-	if nest_node:
-		position = nest_node.position
+	# get_tree().call_group("egg", "hide")
+	# var nest_node = get_tree().get_nodes_in_group("nest")[0]
 	set_physics_process(false)
 	player_sprite.play("victory")
 	Globals.life = 0.0
 	Globals.dialog = "Victory !"
+
 
 func _on_animation_finished():
 	if player_sprite.animation == "victory":
