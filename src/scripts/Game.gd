@@ -1,12 +1,15 @@
 extends Node2D
 
+var player : Node2D = null
 var current_lv : Node2D = null
 
 func _ready():
-	pass
-	
-func _load_lv():
-	pass
+	player = $Player
+	_load_lv($LV1)
+
+func _load_lv(lv_node : Node2D):
+	current_lv = lv_node
+	player.position = current_lv.get_node("StartPosition").position
 
 func _switch_blizzard(active: bool):
 	var animator_group : Array = get_tree().get_nodes_in_group("animator")

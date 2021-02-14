@@ -16,7 +16,6 @@ func _process(_delta):
 		$DebugInfo.text = "FPS: " + str(Engine.get_frames_per_second())
 		$DebugInfo.text += "\nProcess: " + str(stepify(Performance.get_monitor(Performance.TIME_PROCESS) * 1000, 0.01)) + "ms"
 		$DebugInfo.text += "\nMemory usage: " + String().humanize_size(int(Performance.get_monitor(Performance.MEMORY_STATIC)))
-		$DebugInfo.text += "\nDrawn vertices: " + str(Performance.get_monitor(Performance.RENDER_VERTICES_IN_FRAME))
 	if Globals.dialog != "" && not dialog_box.visible:
 		displayDialog(Globals.dialog)
 	elif Globals.dialog == "" && dialog_box.visible:
