@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/ressources/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://src/scenes/LV1/PastLV1.tscn" type="PackedScene" id=2]
@@ -7,6 +7,9 @@
 [ext_resource path="res://src/scenes/LV1/FutureLV1.tscn" type="PackedScene" id=5]
 
 [sub_resource type="CanvasItemMaterial" id=1]
+light_mode = 2
+
+[sub_resource type="CanvasItemMaterial" id=2]
 light_mode = 2
 
 [node name="LV1" type="Node2D"]
@@ -73,12 +76,12 @@ position = Vector2( 288, 176 )
 
 [node name="Future" type="Node2D" parent="Visual"]
 visible = false
-position = Vector2( 113, 17 )
+position = Vector2( 112, 17 )
 script = ExtResource( 3 )
 
 [node name="RenderSprite" type="Sprite" parent="Visual/Future"]
-material = SubResource( 1 )
-position = Vector2( 100, 307.078 )
+material = SubResource( 2 )
+position = Vector2( 100, 307 )
 
 [node name="Viewport" type="Viewport" parent="Visual/Future"]
 size = Vector2( 1000, 1000 )
@@ -87,7 +90,6 @@ usage = 1
 render_target_v_flip = true
 
 [node name="FutureLV1" parent="Visual/Future/Viewport" instance=ExtResource( 5 )]
-visible = false
 position = Vector2( 288, 176 )
 
 [node name="Colide" type="Node" parent="."]
