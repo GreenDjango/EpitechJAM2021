@@ -8,6 +8,7 @@ const FRICTION := 2.0
 const JUMP_SPEED := 200.0
 const WEIGHT := 3.5
 var landing := false
+var state := 0
 var player_sprite: AnimatedSprite = null
 var foot_particles: CPUParticles2D = null
 var jump_particles: CPUParticles2D = null
@@ -34,6 +35,12 @@ func _physics_process(delta : float):
 #		input.y -= 1
 	if Input.is_action_pressed("up"):
 		input.y += 1
+	if Input.is_key_pressed(KEY_1):
+		state = 0
+	if Input.is_key_pressed(KEY_2):
+		state = 1
+	if Input.is_key_pressed(KEY_3):
+		state = 2
 	_move_player(input.normalized())
 	_anim_player(input.normalized())
 
@@ -63,22 +70,46 @@ func _anim_player(input: Vector2):
 	if not is_on_floor():
 		foot_particles.emitting = false
 		landing = true
-		if velocity.y <= 0 && player_sprite.animation != "jump_up":
-			player_sprite.play("jump_up")
-		elif velocity.y > 0 && player_sprite.animation != "jump_down":
-			player_sprite.play("jump_down")
+		if velocity.y <= 0 && (player_sprite.animation != "jump_up" ||
+							player_sprite.animation != "jump_up_past" ||
+							player_sprite.animation != "jump_up_futur"):
+			if state == 0:
+				player_sprite.play("jump_up")
+			if state == 1:
+				player_sprite.play("jump_up_past")
+			if state == 2:
+				player_sprite.play("jump_up_futur")
+		elif velocity.y > 0 && (player_sprite.animation != "jump_down" ||
+							player_sprite.animation != "jump_down_past" ||
+							player_sprite.animation != "jump_down_futur"):
+			if state == 0:
+				player_sprite.play("jump_down")
+			if state == 1:
+				player_sprite.play("jump_down_past")
+			if state == 2:
+				player_sprite.play("jump_down_futur")
 	elif input != Vector2.ZERO:
 		if landing:
 			jump_particles.emitting = true
 			landing = false
-		player_sprite.play("run")
+		if state == 0:
+			player_sprite.play("run")
+		if state == 1:
+			player_sprite.play("run_past")
+		if state == 2:
+			player_sprite.play("run_futur")
 		if acceleration > 0:
 			foot_particles.emitting = true
 	else:
 		if landing:
 			jump_particles.emitting = true
 			landing = false
-		player_sprite.play("idle")
+		if state == 0:
+			player_sprite.play("idle")
+		if state == 1:
+			player_sprite.play("idle_past")
+		if state == 2:
+			player_sprite.play("idle_futur")
 		foot_particles.emitting = false
 
 	if input.x != 0:
