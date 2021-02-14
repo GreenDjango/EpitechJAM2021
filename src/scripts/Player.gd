@@ -15,6 +15,7 @@ var state := PRESENT setget _change_state
 var player_sprite: AnimatedSprite = null
 var foot_particles: CPUParticles2D = null
 var jump_particles: CPUParticles2D = null
+var gemstone_particles: CPUParticles2D = null
 
 onready var gravity = ProjectSettings.get_setting("physics/2d/default_gravity") * ProjectSettings.get_setting("physics/2d/default_gravity_vector").y
 
@@ -22,6 +23,7 @@ func _ready():
 	player_sprite = $AnimatedSprite
 	foot_particles = $FootstepParticles
 	jump_particles = $JumpParticles
+	gemstone_particles = $Light2D/GemstoneParticles
 	foot_particles.local_coords = false
 	jump_particles.local_coords = false
 	self.state = PRESENT
@@ -129,3 +131,11 @@ func _anim_player(input: Vector2):
 		elif velocity.x < 0:
 			player_sprite.flip_h = false
 			foot_particles.direction.x = 200
+
+	if state == PRESENT:
+		gemstone_particles.emitting = false
+		gemstone_particles.visible = false
+	else:
+		gemstone_particles.emitting = true
+		gemstone_particles.visible = true		
+		gemstone_particles.color_ramp.set_color(1, "fff392")
