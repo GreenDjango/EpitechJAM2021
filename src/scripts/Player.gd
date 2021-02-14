@@ -2,11 +2,11 @@ extends KinematicBody2D
 
 var velocity := Vector2.ZERO
 var acceleration := 0.1
-const SPEED_MAX := 70.0
+const SPEED_MAX := 90.0
 const ACCELERATION_STEP := 0.1
-const FRICTION := 0.9
-const JUMP_SPEED := 14.0
-const WEIGHT := 2.0
+const FRICTION := 2.0
+const JUMP_SPEED := 200.0
+const WEIGHT := 3.5
 var player_sprite: AnimatedSprite = null
 var particles: CPUParticles2D = null
 onready var gravity = ProjectSettings.get_setting("physics/2d/default_gravity") * ProjectSettings.get_setting("physics/2d/default_gravity_vector").y
@@ -49,7 +49,7 @@ func _move_player(input: Vector2):
 		velocity.x = move_toward(velocity.x, 0, FRICTION)
 
 	if input.y > 0 && is_on_floor():
-		velocity.y = JUMP_SPEED
+		velocity.y = -JUMP_SPEED
 
 	velocity = move_and_slide(velocity, Vector2.UP)
 	#var collide = move_and_collide(velocity, true, true, true)
@@ -59,9 +59,9 @@ func _move_player(input: Vector2):
 
 func _anim_player(input: Vector2):
 	if not is_on_floor():
-		if velocity.y >= 0 && player_sprite.animation != "jump_up":
+		if velocity.y <= 0 && player_sprite.animation != "jump_up":
 			player_sprite.play("jump_up")
-		elif velocity.y < 0 && player_sprite.animation != "jump_down":
+		elif velocity.y > 0 && player_sprite.animation != "jump_down":
 			player_sprite.play("jump_down")
 	elif input != Vector2.ZERO:
 		player_sprite.play("run")
