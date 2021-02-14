@@ -1,9 +1,10 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://src/scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/run monkey.png" type="Texture" id=2]
 [ext_resource path="res://assets/sprites/idle monkey.png" type="Texture" id=3]
 [ext_resource path="res://assets/sprites/jump monkey.png" type="Texture" id=4]
+[ext_resource path="res://assets/textures/light2.png" type="Texture" id=5]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 8.54249
@@ -55,19 +56,19 @@ region = Rect2( 192, 0, 32, 32 )
 
 [sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 4 )
-region = Rect2( 128, 0, 32, 32 )
+region = Rect2( 32, 0, 32, 32 )
 
 [sub_resource type="AtlasTexture" id=14]
 atlas = ExtResource( 4 )
-region = Rect2( 32, 0, 32, 32 )
+region = Rect2( 64, 0, 32, 32 )
 
 [sub_resource type="AtlasTexture" id=15]
 atlas = ExtResource( 4 )
-region = Rect2( 64, 0, 32, 32 )
+region = Rect2( 96, 0, 32, 32 )
 
 [sub_resource type="AtlasTexture" id=16]
 atlas = ExtResource( 4 )
-region = Rect2( 96, 0, 32, 32 )
+region = Rect2( 128, 0, 32, 32 )
 
 [sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 4 )
@@ -85,15 +86,15 @@ animations = [ {
 "name": "run",
 "speed": 15.0
 }, {
-"frames": [ SubResource( 13 ) ],
-"loop": false,
-"name": "jump_down",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ) ],
+"frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ],
 "loop": false,
 "name": "jump_up",
 "speed": 15.0
+}, {
+"frames": [ SubResource( 17 ) ],
+"loop": false,
+"name": "jump_down",
+"speed": 5.0
 } ]
 
 [sub_resource type="Gradient" id=19]
@@ -102,6 +103,21 @@ colors = PoolColorArray( 0.129412, 0.713726, 0.984314, 1, 0.172549, 0.207843, 0.
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 0.75, 0.125 )
 script = ExtResource( 1 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2( 0, -50 )
+current = true
+smoothing_enabled = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Light2D" type="Light2D" parent="."]
+texture = ExtResource( 5 )
+mode = 2
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.0393715, -9.37804 )
@@ -115,7 +131,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="footstep" type="CPUParticles2D" parent="."]
+[node name="FootstepParticles" type="CPUParticles2D" parent="."]
 emitting = false
 amount = 3
 lifetime = 0.7
@@ -135,7 +151,7 @@ scale_amount = 1.5
 scale_amount_random = 1.0
 color_ramp = SubResource( 19 )
 
-[node name="jump" type="CPUParticles2D" parent="."]
+[node name="JumpParticles" type="CPUParticles2D" parent="."]
 emitting = false
 amount = 5
 lifetime = 0.7

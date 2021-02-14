@@ -1,6 +1,11 @@
 extends Node2D
 
+var current_lv : Node2D = null
+
 func _ready():
+	pass
+	
+func _load_lv():
 	pass
 
 func _switch_blizzard(active: bool):

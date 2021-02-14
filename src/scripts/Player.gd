@@ -9,18 +9,16 @@ const JUMP_SPEED := 200.0
 const WEIGHT := 3.5
 var landing := false
 var player_sprite: AnimatedSprite = null
-var particles: CPUParticles2D = null
+var foot_particles: CPUParticles2D = null
 var jump_particles: CPUParticles2D = null
 onready var gravity = ProjectSettings.get_setting("physics/2d/default_gravity") * ProjectSettings.get_setting("physics/2d/default_gravity_vector").y
 
 func _ready():
-	pass
 	player_sprite = $AnimatedSprite
-	particles = $footstep
-	jump_particles = $jump
-	particles.local_coords = false
+	foot_particles = $FootstepParticles
+	jump_particles = $JumpParticles
+	foot_particles.local_coords = false
 	jump_particles.local_coords = false
-	# particles = $DeathParticles
 
 
 func _physics_process(delta : float):
@@ -63,7 +61,7 @@ func _move_player(input: Vector2):
 
 func _anim_player(input: Vector2):
 	if not is_on_floor():
-		particles.emitting = false
+		foot_particles.emitting = false
 		landing = true
 		if velocity.y <= 0 && player_sprite.animation != "jump_up":
 			player_sprite.play("jump_up")
@@ -75,52 +73,19 @@ func _anim_player(input: Vector2):
 			landing = false
 		player_sprite.play("run")
 		if acceleration > 0:
-			particles.emitting = true
+			foot_particles.emitting = true
 	else:
 		if landing:
 			jump_particles.emitting = true
 			landing = false
 		player_sprite.play("idle")
-		particles.emitting = false
+		foot_particles.emitting = false
 
 	if input.x != 0:
 		if velocity.x > 0:
 			player_sprite.flip_h = true
-			particles.direction.x = -200
+			foot_particles.direction.x = -200
 		elif velocity.x < 0:
 			player_sprite.flip_h = false
-			particles.direction.x = 200
+			foot_particles.direction.x = 200
 
-
-func hurt(degat: float):
-	if Globals.life <= 0:
-		return
-	Globals.life -= degat
-	if Globals.life <= 0:
-		Globals.life = 0
-		killPlayer()
-
-
-func killPlayer():
-	set_physics_process(false)
-	player_sprite.play("death")
-	Globals.dialog = "Defeat..."
-
-
-func victory():
-	# get_tree().call_group("egg", "hide")
-	# var nest_node = get_tree().get_nodes_in_group("nest")[0]
-	set_physics_process(false)
-	player_sprite.play("victory")
-	Globals.life = 0.0
-	Globals.dialog = "Victory !"
-
-
-func _on_animation_finished():
-	if player_sprite.animation == "victory":
-		player_sprite.stop()
-		player_sprite.frame = player_sprite.frames.get_frame_count("victory")
-	if player_sprite.animation == "death":
-		player_sprite.stop()
-		particles.emitting = true
-		player_sprite.visible = false
