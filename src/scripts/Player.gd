@@ -7,14 +7,19 @@ const ACCELERATION_STEP := 0.1
 const FRICTION := 2.0
 const JUMP_SPEED := 200.0
 const WEIGHT := 3.5
+var landing := false
 var player_sprite: AnimatedSprite = null
 var particles: CPUParticles2D = null
+var jump_particles: CPUParticles2D = null
 onready var gravity = ProjectSettings.get_setting("physics/2d/default_gravity") * ProjectSettings.get_setting("physics/2d/default_gravity_vector").y
-
 
 func _ready():
 	pass
 	player_sprite = $AnimatedSprite
+	particles = $footstep
+	jump_particles = $jump
+	particles.local_coords = false
+	jump_particles.local_coords = false
 	# particles = $DeathParticles
 
 
@@ -56,23 +61,35 @@ func _move_player(input: Vector2):
 	#if collide:
 	#	print(collide.collider_id)
 
-
 func _anim_player(input: Vector2):
 	if not is_on_floor():
+		particles.emitting = false
+		landing = true
 		if velocity.y <= 0 && player_sprite.animation != "jump_up":
 			player_sprite.play("jump_up")
 		elif velocity.y > 0 && player_sprite.animation != "jump_down":
 			player_sprite.play("jump_down")
 	elif input != Vector2.ZERO:
+		if landing:
+			jump_particles.emitting = true
+			landing = false
 		player_sprite.play("run")
+		if acceleration > 0:
+			particles.emitting = true
 	else:
+		if landing:
+			jump_particles.emitting = true
+			landing = false
 		player_sprite.play("idle")
+		particles.emitting = false
 
 	if input.x != 0:
 		if velocity.x > 0:
 			player_sprite.flip_h = true
+			particles.direction.x = -200
 		elif velocity.x < 0:
 			player_sprite.flip_h = false
+			particles.direction.x = 200
 
 
 func hurt(degat: float):
