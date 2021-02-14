@@ -291,7 +291,9 @@ tracks/0/keys = {
 "values": [ 1.0, 1.2, 1.0 ]
 }
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D" groups=[
+"player",
+]]
 position = Vector2( 0.75, 0.125 )
 collision_mask = 2147483649
 script = ExtResource( 1 )
@@ -306,7 +308,6 @@ __meta__ = {
 
 [node name="Light2D" type="Light2D" parent="."]
 texture = ExtResource( 5 )
-texture_scale = 1.00498
 mode = 2
 __meta__ = {
 "_edit_lock_": true
