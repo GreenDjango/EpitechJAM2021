@@ -2,11 +2,11 @@ extends KinematicBody
 
 var velocity := Vector3.ZERO
 var acceleration := 0.1
-const SPEED_MAX := 8.0
+const SPEED_MAX := 10.0
 const ACCELERATION_STEP := 0.1
 const FRICTION := 0.9
-const JUMP_SPEED := 14.0
-const WEIGHT := 2.0
+const JUMP_SPEED := 40.0
+const WEIGHT := 6.0
 var player_sprite: AnimatedSprite3D = null
 var particles: CPUParticles2D = null
 onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity") * ProjectSettings.get_setting("physics/3d/default_gravity_vector").y
@@ -69,7 +69,7 @@ func _anim_player(input: Vector2):
 		player_sprite.play("idle")
 
 	if input.x != 0:
-		if velocity.x > 0:
+		if velocity.x >= 0.01:
 			player_sprite.flip_h = true
 		elif velocity.x < 0:
 			player_sprite.flip_h = false
