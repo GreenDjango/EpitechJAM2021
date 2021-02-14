@@ -1,7 +1,10 @@
 extends Control
 
+var dialog_box : Panel = null
+
 func _ready():
-	$DialogBox.visible = false
+	dialog_box = $DialogBox
+	dialog_box.visible = false
 	if Globals.DEBUG:
 		$DebugInfo.visible = true
 	else:
@@ -14,9 +17,9 @@ func _process(_delta):
 		$DebugInfo.text += "\nProcess: " + str(stepify(Performance.get_monitor(Performance.TIME_PROCESS) * 1000, 0.01)) + "ms"
 		$DebugInfo.text += "\nMemory usage: " + String().humanize_size(int(Performance.get_monitor(Performance.MEMORY_STATIC)))
 		$DebugInfo.text += "\nDrawn vertices: " + str(Performance.get_monitor(Performance.RENDER_VERTICES_IN_FRAME))
-	if Globals.dialog != "" && not $DialogBox.visible:
+	if Globals.dialog != "" && not dialog_box.visible:
 		displayDialog(Globals.dialog)
-	elif Globals.dialog == "" && $DialogBox.visible:
+	elif Globals.dialog == "" && dialog_box.visible:
 		undisplayDialog()
 
 
@@ -27,12 +30,12 @@ func _input(event):
 
 
 func displayDialog(text: String):
-	$DialogBox.setText(text)
-	$DialogBox.visible = true
+	dialog_box.setText(text)
+	dialog_box.visible = true
 
 
 func undisplayDialog():
-	$DialogBox.visible = false
+	dialog_box.visible = false
 	Globals.dialog = ""
 
 

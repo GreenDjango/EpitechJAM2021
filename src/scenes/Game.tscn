@@ -4,7 +4,7 @@
 [ext_resource path="res://src/scenes/GameHUD.tscn" type="PackedScene" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 593.33, 18.6405 )
+extents = Vector2( 159.57, 18.6405 )
 
 [node name="Game" type="Node2D"]
 __meta__ = {
@@ -12,18 +12,35 @@ __meta__ = {
 }
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 222.487, 131.903 )
+position = Vector2( 164.119, 75.7799 )
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+offset = Vector2( 0, -50 )
 current = true
 
-[node name="GameHUD" parent="Player/Camera2D" instance=ExtResource( 3 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2( 329.705, 393.778 )
+position = Vector2( 160.462, 160.809 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 180.203, 33.371 )
 shape = SubResource( 1 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ViewportContainer" type="ViewportContainer" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="CanvasLayer/ViewportContainer"]
+size = Vector2( 320, 180 )
+transparent_bg = true
+usage = 1
+render_target_update_mode = 3
+
+[node name="GameHUD" parent="CanvasLayer/ViewportContainer/Viewport" instance=ExtResource( 3 )]
