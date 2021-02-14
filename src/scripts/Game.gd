@@ -32,10 +32,16 @@ func _change_state(scancode : int):
 
 
 func _load_lv(lv_node : Node2D):
+	#if current_lv:
+	#	current_lv.get_node("EndZone").disconnect("body_entered")
 	current_lv = lv_node
 	player.position = current_lv.get_node("StartPosition").position
 	current_lv.get_node("Visual/Past").visible = false
 	current_lv.get_node("Visual/Future").visible = false
+	#current_lv.get_node("EndZone").connect("body_entered", self, "_on_end")
+
+func _on_end():
+	print("END")
 
 
 func _is_player(body : Node ) -> bool: 

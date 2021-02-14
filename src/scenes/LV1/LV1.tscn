@@ -1,10 +1,13 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/ressources/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://src/scenes/LV1/PastLV1.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/scripts/Viewport2D.gd" type="Script" id=3]
 [ext_resource path="res://assets/icon.png" type="Texture" id=4]
 [ext_resource path="res://src/scenes/LV1/FutureLV1.tscn" type="PackedScene" id=5]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 26, 24 )
 
 [sub_resource type="CanvasItemMaterial" id=1]
 light_mode = 2
@@ -17,6 +20,16 @@ position = Vector2( 1, 0 )
 
 [node name="StartPosition" type="Position2D" parent="."]
 position = Vector2( 82.7996, 63.0277 )
+
+[node name="EndZone" type="Area2D" parent="."]
+position = Vector2( 500, 136 )
+z_index = 1
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EndZone"]
+shape = SubResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
 visible = false
