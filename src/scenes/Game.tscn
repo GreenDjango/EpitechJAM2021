@@ -17,6 +17,7 @@ position = Vector2( 0, 0 )
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 188.057, 63.1807 )
 z_index = 10
+collision_mask = 0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

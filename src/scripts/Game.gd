@@ -7,27 +7,36 @@ func _ready():
 	player = $Player
 	_load_lv($LV1)
 
+func _unhandled_input(event):
+	if event is InputEventKey:
+		if event.pressed == true && event.echo == false:
+			_change_state(event.scancode)
+
+
+func _change_state(scancode : int):
+	var past : Node2D = current_lv.get_node("Visual/Past")
+	var future : Node2D = current_lv.get_node("Visual/Future")
+
+	if scancode == KEY_1:
+		player.state = player.PAST
+		past.visible = true
+		future.visible = false
+	if scancode == KEY_2:
+		player.state = player.PRESENT
+		past.visible = false
+		future.visible = false
+	if scancode == KEY_3:
+		player.state = player.FUTURE
+		past.visible = false
+		future.visible = true
+
+
 func _load_lv(lv_node : Node2D):
 	current_lv = lv_node
 	player.position = current_lv.get_node("StartPosition").position
+	current_lv.get_node("Visual/Past").visible = false
+	current_lv.get_node("Visual/Future").visible = false
 
-func _switch_blizzard(active: bool):
-	var animator_group : Array = get_tree().get_nodes_in_group("animator")
-	if !animator_group || animator_group.empty():
-		return
-	var animator_node : AnimationPlayer = animator_group[0]
-	if active:
-		animator_node.play("blizzard")
-	else:
-		animator_node.play_backwards("blizzard")
 
 func _is_player(body : Node ) -> bool: 
 	return body is KinematicBody2D && body.is_in_group("player")
-
-func _on_BlizzardArea_body_entered(body):
-	if _is_player(body):
-		_switch_blizzard(true)
-
-func _on_BlizzardArea_body_exited(body):
-	if _is_player(body):
-		_switch_blizzard(false)

@@ -13,9 +13,10 @@ func _ready():
 func _process(_delta):
 	# $Heart3.self_modulate.a = min(max(Globals.life - 2.0, 0), 1.0)
 	if Globals.DEBUG:
-		$DebugInfo.text = "FPS: " + str(Engine.get_frames_per_second())
-		$DebugInfo.text += "\nProcess: " + str(stepify(Performance.get_monitor(Performance.TIME_PROCESS) * 1000, 0.01)) + "ms"
-		$DebugInfo.text += "\nMemory usage: " + String().humanize_size(int(Performance.get_monitor(Performance.MEMORY_STATIC)))
+		var debug_str = "FPS: " + str(Engine.get_frames_per_second())
+		debug_str += "\nProcess: " + str(stepify(Performance.get_monitor(Performance.TIME_PROCESS) * 1000, 0.01)) + "ms"
+		debug_str += "\nMemory usage: " + String().humanize_size(int(Performance.get_monitor(Performance.MEMORY_STATIC)))
+		$DebugInfo.text = debug_str
 	if Globals.dialog != "" && not dialog_box.visible:
 		displayDialog(Globals.dialog)
 	elif Globals.dialog == "" && dialog_box.visible:
