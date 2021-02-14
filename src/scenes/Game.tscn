@@ -1,120 +1,29 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://src/blocks/Sand.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/nodes/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/scenes/GameHUD.tscn" type="PackedScene" id=3]
 
-[sub_resource type="ProceduralSky" id=15]
-sky_top_color = Color( 0.945098, 0.854902, 0.647059, 1 )
-sky_horizon_color = Color( 0.980392, 0.933333, 0.839216, 1 )
-sky_energy = 2.0
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 593.33, 18.6405 )
 
-[sub_resource type="Environment" id=14]
-background_mode = 2
-background_sky = SubResource( 15 )
-
-[sub_resource type="CubeMesh" id=1]
-
-[sub_resource type="SpatialMaterial" id=2]
-albedo_color = Color( 0.807843, 0, 0.776471, 1 )
-
-[sub_resource type="BoxShape" id=3]
-
-[sub_resource type="BoxShape" id=4]
-extents = Vector3( 10, 1, 6 )
-
-[sub_resource type="CubeMesh" id=5]
-size = Vector3( 20, 10, 2 )
-
-[sub_resource type="CubeMesh" id=6]
-size = Vector3( 5, 2, 2 )
-
-[sub_resource type="Skin" id=7]
-bind_count = 1
-bind/0/name = ""
-bind/0/bone = -1
-bind/0/pose = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-
-[sub_resource type="SpatialMaterial" id=8]
-albedo_color = Color( 0.815686, 0.196078, 0.196078, 1 )
-
-[sub_resource type="CubeMesh" id=9]
-
-[sub_resource type="SpatialMaterial" id=10]
-albedo_color = Color( 1, 0.972549, 0.290196, 1 )
-
-[sub_resource type="BoxShape" id=11]
-
-[sub_resource type="CubeMesh" id=12]
-size = Vector3( 20, 2, 10 )
-
-[sub_resource type="SpatialMaterial" id=13]
-albedo_color = Color( 0.258824, 0.756863, 0.290196, 1 )
-
-[node name="Spatial" type="Spatial"]
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 14 )
-
-[node name="RigidBody" type="RigidBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, -1 )
-
-[node name="MeshInstance" type="MeshInstance" parent="RigidBody"]
-mesh = SubResource( 1 )
-material/0 = SubResource( 2 )
-
-[node name="CollisionShape" type="CollisionShape" parent="RigidBody"]
-shape = SubResource( 3 )
+[node name="Game" type="Node2D"]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1 )
+position = Vector2( 222.487, 131.903 )
 
-[node name="MainCamera" type="Camera" parent="Player"]
-transform = Transform( 1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 8, 9 )
-projection = 1
+[node name="Camera2D" type="Camera2D" parent="Player"]
 current = true
-size = 15.0
 
-[node name="SandBlock" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 5, -1 )
+[node name="GameHUD" parent="Player/Camera2D" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
 
-[node name="StaticBody" type="StaticBody" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( 329.705, 393.778 )
 
-[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
-shape = SubResource( 4 )
-
-[node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -3 )
-mesh = SubResource( 5 )
-material/0 = null
-
-[node name="MeshInstance2" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 6, -1 )
-mesh = SubResource( 6 )
-skin = SubResource( 7 )
-material/0 = SubResource( 8 )
-
-[node name="RigidBody2" type="StaticBody" parent="."]
-transform = Transform( 3, 0, 0, 0, 1, 0, 0, 0, 1, 4, 3, -1 )
-
-[node name="MeshInstance3" type="MeshInstance" parent="RigidBody2"]
-mesh = SubResource( 9 )
-material/0 = SubResource( 10 )
-
-[node name="CollisionShape" type="CollisionShape" parent="RigidBody2"]
-shape = SubResource( 11 )
-
-[node name="Floor" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 1 )
-mesh = SubResource( 12 )
-material/0 = SubResource( 13 )
-
-[node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 0.940461, 0.223866, -0.255767, -0.0376891, 0.816516, 0.576091, 0.337805, -0.532151, 0.776339, 14, 17, 0 )
-light_energy = 0.3
-shadow_enabled = true
-directional_shadow_normal_bias = 0.0
-directional_shadow_max_distance = 20.0
-
-[node name="GameHUD" parent="." instance=ExtResource( 3 )]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 180.203, 33.371 )
+shape = SubResource( 1 )

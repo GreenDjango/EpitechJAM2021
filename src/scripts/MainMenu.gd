@@ -1,4 +1,4 @@
-extends Control
+extends Spatial
 
 func _ready():
 	$Control/Path2D/PathFollow2D/Pingu.play("fly")
