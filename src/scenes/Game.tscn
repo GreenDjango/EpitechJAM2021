@@ -1,35 +1,29 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://src/nodes/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/scenes/GameHUD.tscn" type="PackedScene" id=3]
-[ext_resource path="res://src/scenes/LV1.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 239.302, 18.6405 )
+extents = Vector2( 593.33, 18.6405 )
 
-[node name="Game" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="Game" type="Node2D"]
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="LV1" parent="." instance=ExtResource( 4 )]
-
-[node name="Ground" type="StaticBody2D" parent="."]
-position = Vector2( 329.705, 393.778 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
-position = Vector2( -94.4925, -243.082 )
-shape = SubResource( 1 )
-
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 156.146, 73.287 )
+position = Vector2( 222.487, 131.903 )
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
-offset = Vector2( 0, -50 )
 current = true
-smoothing_enabled = true
-smoothing_speed = 3.0
 
-[node name="GameHUD" parent="." instance=ExtResource( 3 )]
+[node name="GameHUD" parent="Player/Camera2D" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( 329.705, 393.778 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 180.203, 33.371 )
+shape = SubResource( 1 )
