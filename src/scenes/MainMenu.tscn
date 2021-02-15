@@ -40,38 +40,38 @@ surfaces/0 = {
 albedo_color = Color( 0.254902, 0.254902, 0.254902, 1 )
 roughness = 0.15
 
-[sub_resource type="AtlasTexture" id=16]
+[sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 278, 118 )
 
-[sub_resource type="AtlasTexture" id=17]
+[sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 5 )
 region = Rect2( 278, 0, 278, 118 )
 
-[sub_resource type="SpriteFrames" id=18]
+[sub_resource type="SpriteFrames" id=10]
 animations = [ {
-"frames": [ SubResource( 16 ), SubResource( 17 ) ],
+"frames": [ SubResource( 8 ), SubResource( 9 ) ],
 "loop": true,
 "name": "default",
 "speed": 2.0
 } ]
 
-[sub_resource type="CubeMesh" id=8]
-
-[sub_resource type="SpatialMaterial" id=9]
-albedo_color = Color( 0.717647, 0.588235, 0.282353, 1 )
-
-[sub_resource type="BoxShape" id=10]
-
 [sub_resource type="CubeMesh" id=11]
 
-[sub_resource type="BoxShape" id=12]
+[sub_resource type="SpatialMaterial" id=12]
+albedo_color = Color( 0.717647, 0.588235, 0.282353, 1 )
 
-[sub_resource type="CubeMesh" id=13]
+[sub_resource type="BoxShape" id=13]
 
-[sub_resource type="BoxShape" id=14]
+[sub_resource type="CubeMesh" id=14]
 
 [sub_resource type="BoxShape" id=15]
+
+[sub_resource type="CubeMesh" id=16]
+
+[sub_resource type="BoxShape" id=17]
+
+[sub_resource type="BoxShape" id=18]
 extents = Vector3( 6, 4, 6 )
 
 [node name="MainMenu" type="Spatial"]
@@ -116,7 +116,7 @@ transform = Transform( 1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 2
 pixel_size = 0.05
 shaded = true
 alpha_cut = 2
-frames = SubResource( 18 )
+frames = SubResource( 10 )
 
 [node name="Struct" type="Spatial" parent="."]
 __meta__ = {
@@ -131,11 +131,11 @@ __meta__ = {
 }
 
 [node name="Mesh" type="MeshInstance" parent="Struct/Floor"]
-mesh = SubResource( 8 )
-material/0 = SubResource( 9 )
+mesh = SubResource( 11 )
+material/0 = SubResource( 12 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Struct/Floor"]
-shape = SubResource( 10 )
+shape = SubResource( 13 )
 
 [node name="Plateform" type="StaticBody" parent="Struct"]
 transform = Transform( 8, 0, 0, 0, 1, 0, 0, 0, 6, 21, 9, -4 )
@@ -144,11 +144,11 @@ __meta__ = {
 }
 
 [node name="Mesh" type="MeshInstance" parent="Struct/Plateform"]
-mesh = SubResource( 8 )
-material/0 = SubResource( 9 )
+mesh = SubResource( 11 )
+material/0 = SubResource( 12 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Struct/Plateform"]
-shape = SubResource( 10 )
+shape = SubResource( 13 )
 
 [node name="Wall1" type="StaticBody" parent="Struct"]
 transform = Transform( 1, 0, 0, 0, 15, 0, 0, 0, 15, -19, 13, 5 )
@@ -157,11 +157,11 @@ __meta__ = {
 }
 
 [node name="Mesh" type="MeshInstance" parent="Struct/Wall1"]
-mesh = SubResource( 11 )
+mesh = SubResource( 14 )
 material/0 = null
 
 [node name="CollisionShape" type="CollisionShape" parent="Struct/Wall1"]
-shape = SubResource( 12 )
+shape = SubResource( 15 )
 
 [node name="Wall2" type="StaticBody" parent="Struct"]
 transform = Transform( 31, 0, 0, 0, 22, 0, 0, 0, 1, 11, 20, -11 )
@@ -170,11 +170,11 @@ __meta__ = {
 }
 
 [node name="Mesh" type="MeshInstance" parent="Struct/Wall2"]
-mesh = SubResource( 13 )
+mesh = SubResource( 16 )
 material/0 = null
 
 [node name="CollisionShape" type="CollisionShape" parent="Struct/Wall2"]
-shape = SubResource( 14 )
+shape = SubResource( 17 )
 
 [node name="Wall3" type="StaticBody" parent="Struct"]
 transform = Transform( 1, 0, 0, 0, 15, 0, 0, 0, 15, 43, 13, 3 )
@@ -183,11 +183,11 @@ __meta__ = {
 }
 
 [node name="Mesh" type="MeshInstance" parent="Struct/Wall3"]
-mesh = SubResource( 11 )
+mesh = SubResource( 14 )
 material/0 = null
 
 [node name="CollisionShape" type="CollisionShape" parent="Struct/Wall3"]
-shape = SubResource( 12 )
+shape = SubResource( 15 )
 
 [node name="Area" type="Area" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 18, -4 )
@@ -198,7 +198,7 @@ __meta__ = {
 
 [node name="CollisionShape" type="CollisionShape" parent="Area"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0 )
-shape = SubResource( 15 )
+shape = SubResource( 18 )
 
 [node name="Monkey" type="Sprite3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 21, 12.7, -8.7 )
