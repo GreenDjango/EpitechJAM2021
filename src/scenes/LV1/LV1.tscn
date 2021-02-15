@@ -75,6 +75,7 @@ position = Vector2( 112, 17 )
 script = ExtResource( 3 )
 
 [node name="RenderSprite" type="Sprite" parent="Visual/Past"]
+self_modulate = Color( 0.666667, 0.666667, 1, 1 )
 material = SubResource( 2 )
 position = Vector2( 100, 307 )
 
@@ -93,6 +94,7 @@ position = Vector2( 112, 17 )
 script = ExtResource( 3 )
 
 [node name="RenderSprite" type="Sprite" parent="Visual/Future"]
+self_modulate = Color( 1, 0.666667, 0.666667, 1 )
 material = SubResource( 3 )
 position = Vector2( 100, 307 )
 

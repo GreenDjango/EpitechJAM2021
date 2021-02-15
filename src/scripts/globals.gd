@@ -3,7 +3,7 @@ extends Node
 var default_life := 3.0
 var life := default_life
 var dialog := ""
-const DEBUG := true
+var DEBUG := OS.is_debug_build()
 
 func _ready():
 	randomize()
